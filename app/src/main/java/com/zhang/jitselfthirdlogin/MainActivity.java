@@ -1,15 +1,19 @@
 package com.zhang.jitselfthirdlogin;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import java.util.Map;
 
 import static java.lang.System.out;
 
@@ -100,6 +104,26 @@ public class MainActivity extends AppCompatActivity {
                 //Toast.makeText(context, "", Toast.LENGTH_SHORT).show();   //跳转失败的处理
             }
         });
+        addButton("吊起新代购并登陆", v -> {
+            String appPackage = "com.wushi.lenovo.asia5b";
+            if (AppUtil.INSTANCE.isAppInstall(mActivity, appPackage)) {
+                Uri uri = Uri.parse("asia5bnew://profile/");
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+            } else {
+                showToast("应用未安装");
+            }
+        });
+        addButton("吊起商城并登陆", v -> {
+            String appPackage = "com.asia5b.a5bmall";
+            if (AppUtil.INSTANCE.isAppInstall(mActivity, appPackage)) {
+                Uri uri = Uri.parse("a5bmall://profile/");
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivityForResult(intent, 81);
+            } else {
+                showToast("应用未安装");
+            }
+        });
     }
 
     void addButton(String text, View.OnClickListener clickListener) {
@@ -111,5 +135,21 @@ public class MainActivity extends AppCompatActivity {
 
     void showToast(String content) {
         Toast.makeText(mActivity, content, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == 81) {
+                if (data.hasExtra("profile")) {
+                    Map<String,Object> profile = (Map<String, Object>) data.getSerializableExtra("profile");
+                    showToast("登录成功,资料:" + profile);
+                    out.println("---<<<>>>---profile:" + profile);
+                }
+            }
+        }
+
     }
 }
