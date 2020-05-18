@@ -1,0 +1,49 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+android {
+    compileSdkVersion 28
+
+    defaultConfig {
+        applicationId "com.zhang.jitselfthirdlogin"
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        encoding 'UTF-8'
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    /**
+     *  Android基础依赖库
+     */
+    api "com.android.support:design:$versions.supportLibrariesVersion"
+    api "com.android.support:animated-vector-drawable:$versions.supportLibrariesVersion"
+    api "com.android.support:support-media-compat:$versions.supportLibrariesVersion"
+    api "com.android.support:support-v4:$versions.supportLibrariesVersion"
+    api "com.android.support:appcompat-v7:$versions.supportLibrariesVersion"
+    api "com.android.support:cardview-v7:$versions.supportLibrariesVersion"
+    api "com.android.support.constraint:constraint-layout:$versions.constraintLayoutVersion"
+    api 'com.android.support:multidex:1.0.2'
+
+    //Kotlin依赖
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.0'
+}
